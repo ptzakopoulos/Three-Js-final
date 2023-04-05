@@ -1,0 +1,60 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.html-screen {
+  width: 1920px;
+  height: 1080px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.test-block {
+  width: 100%;
+  height: 100px;
+  background-color: blue;
+}
+iframe {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  animation-name: test;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+button {
+  width: 400px;
+  height: 150px;
+}
+.github {
+  text-decoration: none;
+  color: blue;
+}
+.github:hover {
+  filter: drop-shadow(0px -1px 5px white);
+}
+
+.test {
+  width: 1920px;
+  height: 1080px;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 2;
+}
