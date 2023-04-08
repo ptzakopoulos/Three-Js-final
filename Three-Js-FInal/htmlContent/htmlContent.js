@@ -3,6 +3,7 @@ import {
   CSS3DRenderer,
   CSS3DObject,
 } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { cssCamera, cssRenderer } from "../localModules/setup/setUp.js";
 import { screenDimensions } from "../objects/screen.js";
 //Text
 
@@ -35,8 +36,10 @@ class Frame {
     const screenDisplay = new CSS3DObject(h1);
     const width = (screenDimensions.width * 0.00522) / 10;
     const height = (screenDimensions.height * 0.004675) / 5;
-    screenDisplay.scale.set(width, height, 100);
+    screenDisplay.scale.set(width, height);
     screenDisplay.position.set(0, 0, 0);
+    screenDisplay.name = "htmlContent";
+    screenDisplay.up = 5;
 
     // cssScene.add(screenDisplay);
 
@@ -44,17 +47,21 @@ class Frame {
     const a = document.createElement("a");
     a.setAttribute("href", "http://www.github.com");
     a.setAttribute("target", "__blank");
+    a.setAttribute("id", "githubLink");
     a.classList.add("github");
     a.textContent = "GitHub Link";
     const gitHub = new CSS3DObject(a);
     gitHub.position.set(0, 3, 0);
+    gitHub.name = "Github";
 
-    gitHub.scale.set(0.0525, 0.04675, 100);
+    gitHub.scale.set(0.0525, 0.04675);
 
     const cssScene = new THREE.Scene();
     cssScene.add(gitHub, screenDisplay);
 
-    return cssScene;
+    const objects = [screenDisplay, gitHub];
+    // return cssScene;
+    return objects;
   }
 }
 

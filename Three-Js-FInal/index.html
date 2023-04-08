@@ -5,8 +5,27 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styling/style.css" />
+    <script src="https://cdn.rawgit.com/mrdoob/stats.js/master/build/stats.min.js"></script>
     <script type="module" src="/main.js"></script>
     <title>Three Js Final</title>
   </head>
-  <body></body>
+  <body>
+    <div class="start-container" id="startContainer">
+      <div class="start-bt" id="start">Enter the world</div>
+    </div>
+    <div class="info">
+      <div class="w" id="w">W</div>
+      <div class="a" id="a">A</div>
+      <div class="s" id="s">S</div>
+      <div class="d" id="d">D</div>
+    </div>
+    <div class="isPaused" id="isPaused">
+      <div class="arrow" id="arrow">></div>
+      <input type="button" class="paused-bt" id="continue" value="Continue" />
+      <input type="button" class="paused-bt" id="setting" value="Sensitivity" />
+      <input type="button" class="paused-bt" id="setting" value="Settings" />
+      <input type="button" class="paused-bt" id="restart" value="restart" />
+      <input type="button" class="paused-bt" id="exit" value="Exit" />
+    </div>
+  </body>
 </html>

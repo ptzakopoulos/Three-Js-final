@@ -11,7 +11,10 @@ export default () => {
   const render = () => {
     const canvas = renderer.domElement;
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    cssCamera.aspect =
+      cssRenderer.domElement.clientWidth / cssRenderer.domElement.clientHeight;
     camera.updateProjectionMatrix();
+    cssCamera.updateProjectionMatrix();
     const width = canvas.clientHeight;
     const height = canvas.clientHeight;
     const needResize = canvas.width !== width || canvas.height !== height;

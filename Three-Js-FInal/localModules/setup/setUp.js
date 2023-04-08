@@ -15,7 +15,7 @@ cssRenderer.setSize(window.innerWidth, window.innerHeight);
 cssRenderer.domElement.style.position = "absolute";
 cssRenderer.domElement.style.top = "0px";
 cssRenderer.domElement.style.left = "0px";
-cssRenderer.domElement.style.pointerEvents = "none";
+// cssRenderer.domElement.style.pointerEvents = "none";
 document.body.appendChild(cssRenderer.domElement);
 
 document.body.appendChild(renderer.domElement);
@@ -38,10 +38,11 @@ camera.position.set(0, 0, 1);
 const fov2 = 75;
 
 //Camera 2
-const cssCamera = new THREE.PerspectiveCamera(fov2, aspect, near, far);
+const cssCamera = new THREE.PerspectiveCamera(fov2, aspect, near, 1);
 cssCamera.position.set(0, 0, 1);
 
 scene.add(camera);
+// scene.add(cssCamera);
 cssScene.add(cssCamera);
 
 export { canvas, renderer, scene, cssScene, camera, cssCamera, cssRenderer };

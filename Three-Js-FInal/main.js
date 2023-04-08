@@ -1,4 +1,5 @@
 import * as THREE from "three";
+// import * as Stats from "stats";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "dat.gui";
 
@@ -14,6 +15,7 @@ import {
 import { Spotlight } from "./localModules/lights/lights.js";
 import Responsive from "./localModules/setup/responsive.js";
 import cameraControll from "./localModules/camera/camera-controllers.js";
+import target from "./localModules/interactivity.js";
 //Local Scenarios
 import { Screen } from "./objects/screen.js";
 import { Frame } from "./htmlContent/htmlContent.js";
@@ -25,7 +27,7 @@ import { Frame } from "./htmlContent/htmlContent.js";
 renderer.shadowMap.enabled = true;
 
 //light
-const spotLight = new Spotlight(0xffffff, { x: 0, y: 100, z: 50 }, 1);
+const spotLight = new Spotlight(0xffffff, { x: 0, y: 300, z: 50 }, 1);
 spotLight.Create();
 spotLight.Place();
 spotLight.Handler().castShadow = true;
@@ -46,22 +48,27 @@ scene.add(plane);
 
 //Screen
 const screen = new Screen({ screenColor: 0x00ff00 }).Create();
-screen.position.set(-15, 3, 5);
-screen.rotation.y = 1;
+const content1 = new Frame({ local: "testContent" }).Create();
+screen.position.set(-15, 3, 0);
+// screen.rotation.y = 1;
+content1.forEach((e) => {
+  screen.add(e);
+});
+// screen.add(content1);
 
 const screen2 = new Screen({ screenColor: 0xff0000 }).Create();
 screen2.position.set(0, 3, 0);
 const content2 = new Frame({
-  local: "testContent",
-}).Create();
-
-const screen3 = new Screen({ screenColor: 0x0000ff }).Create();
-screen3.position.set(11, 3, 0);
-const content3 = new Frame({
   online: " http://tzakopoulosp.gr/index.html",
   // local: "testContent",
 }).Create();
-screen2.add(content3);
+content2.forEach((e) => {
+  screen2.add(e);
+});
+// screen2.add(content2);
+
+const screen3 = new Screen({ screenColor: 0x0000ff }).Create();
+screen3.position.set(15, 3, 0);
 
 //Environment Render & Update
 camera.position.set(0, 4, 36);
@@ -77,12 +84,30 @@ const test = () => {
 };
 test();
 
+//Raycaster test
+// const raycaster = new THREE.Raycaster();
+// const pointer = new THREE.Vector2();
+// let target;
+// window.addEventListener("click", (e) => {
+//   pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+//   pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+//   raycaster.setFromCamera(pointer, camera);
+
+//   // calculate objects intersecting the picking ray
+//   const intersects = raycaster.intersectObjects(scene.children);
+//   target = raycaster.intersectObjects(scene.children);
+//   console.log(target);
+// });
+
+target();
+
 // orbit.update();
-scene.rotation.y += 2;
+
 camera.lookAt(0, 3, 1);
 cssCamera.lookAt(0, 3, 1);
 cameraControll();
 renderer.render(scene, camera);
+cssRenderer.render(cssScene, cssCamera);
 const animatie = () => {
   const animation = requestAnimationFrame(animatie);
   if (camera.position.z > 20) {
@@ -95,3 +120,15 @@ const animatie = () => {
 };
 requestAnimationFrame(animatie);
 Responsive();
+
+// ____________________ TESTS_________________
+console.log("Na deiksw me posa FPS trexei");
+
+const stats = new Stats();
+document.body.appendChild(stats.dom);
+stats.dom.style.transform = "translate(50px,50px) scale(2)";
+const fpsDisplay = () => {
+  stats.update();
+  requestAnimationFrame(fpsDisplay);
+};
+requestAnimationFrame(fpsDisplay);

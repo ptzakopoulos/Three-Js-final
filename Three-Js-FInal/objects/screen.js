@@ -28,6 +28,7 @@ class Screen {
   constructor(attributes) {
     this.Create = () => {
       const aboutRoom = new THREE.Group();
+      aboutRoom.name = "Group";
       //Screen
       const screenColor =
         attributes == undefined
@@ -43,11 +44,12 @@ class Screen {
       const screenMaterial = new THREE.MeshPhongMaterial({
         // map: loader.load("../images/test.png"),
         color: screenColor,
-        // side: THREE.DoubleSide,
+        side: THREE.DoubleSide,
       });
 
       const screen = new THREE.Mesh(screenGeometry, screenMaterial);
       screen.castShadow = true;
+      screen.name = "Screen";
 
       //Base
       const baseColor =
@@ -63,6 +65,7 @@ class Screen {
       const base = new THREE.Mesh(baseGeometry, baseMaterial);
 
       base.position.y = -2.5;
+      base.name = "Base";
 
       aboutRoom.add(base, screen);
 
