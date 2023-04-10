@@ -24,9 +24,9 @@ export default () => {
 
   const objects = [...scene.children];
 
-  objects.shift();
-  objects.shift();
-  objects.shift();
+  objects.shift(); //Camera
+  objects.shift(); //Light
+  objects.shift(); //Floor
 
   const objectDetect = () => {
     objects.forEach((e) => {
@@ -38,12 +38,6 @@ export default () => {
       ) {
         const githubLink = e.children.find((r) => r.name == "Github");
         githubLink == undefined ? NaN : githubLink.element.focus();
-        // const htmlContent = e.children.find((r) => r.name == "htmlContent");
-        // console.log(htmlContent.element.children[0].contentWindow.document);
-        // window.addEventListener("wheel", (g) => {
-        //   if (g.deltaY > 0) {
-        //   }
-        // });
       } else {
         const githubLink = e.children.find((r) => r.name == "Github");
         githubLink == undefined ? NaN : githubLink.element.blur();

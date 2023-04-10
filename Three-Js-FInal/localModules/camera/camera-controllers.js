@@ -1,12 +1,4 @@
-import * as THREE from "three";
-import { BooleanKeyframeTrack } from "three";
-import {
-  camera,
-  cssCamera,
-  renderer,
-  scene,
-  cssScene,
-} from "../setup/setUp.js";
+import { camera, scene } from "../setup/setUp.js";
 
 export default (e) => {
   let pointerX, pointerY;
@@ -36,24 +28,6 @@ export default (e) => {
       : NaN;
   });
 
-  const Rotate = (e) => {
-    cameraRotation == undefined ? NaN : clearInterval(cameraRotation);
-    pointerX = (e.clientX / window.innerWidth) * 2 - 1;
-    pointerY = (e.clientY / window.innerHeight) * 2 - 1;
-    if (pointerX > 0.5 && !isPaused) {
-      cameraRotation = setInterval(() => {
-        camera.rotation.y -= Math.sin(pointerX) * 0.05;
-        cssCamera.rotation.y -= Math.sin(pointerX) * 0.05;
-      }, 10);
-    } else if (pointerX < -0.5 && !isPaused) {
-      cameraRotation = setInterval(() => {
-        camera.rotation.y -= Math.sin(pointerX) * 0.05;
-        cssCamera.rotation.y -= Math.sin(pointerX) * 0.05;
-      }, 10);
-    } else {
-    }
-  };
-
   //Options events
   //Continue
   const optionEvents = [
@@ -81,16 +55,17 @@ export default (e) => {
   ];
 
   //Movement + Controllers
+  const objects = [...scene.children];
+  objects.shift[0]; //Camera
+  objects.shift[0]; //Light
+  objects.shift[0]; //Floor
   window.addEventListener("keydown", (e) => {
     const speed = 0.1;
     switch (true) {
       case e.key == "w" && !forward && !isPaused:
-        // camera.position.z -= 0.5;
         forward = setInterval(() => {
           camera.position.z -= Math.cos(camera.rotation.y) * speed;
           camera.position.x -= Math.sin(camera.rotation.y) * speed;
-          cssCamera.position.z -= Math.cos(camera.rotation.y) * speed;
-          cssCamera.position.x -= Math.sin(camera.rotation.y) * speed;
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
@@ -99,8 +74,6 @@ export default (e) => {
         backward = setInterval(() => {
           camera.position.z += Math.cos(camera.rotation.y) * speed;
           camera.position.x += Math.sin(camera.rotation.y) * speed;
-          cssCamera.position.z += Math.cos(camera.rotation.y) * speed;
-          cssCamera.position.x += Math.sin(camera.rotation.y) * speed;
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
@@ -109,8 +82,6 @@ export default (e) => {
         left = setInterval(() => {
           camera.position.x -= Math.cos(camera.rotation.y) * speed;
           camera.position.z += Math.sin(camera.rotation.y) * speed;
-          cssCamera.position.x -= Math.cos(camera.rotation.y) * speed;
-          cssCamera.position.z += Math.sin(camera.rotation.y) * speed;
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
@@ -119,8 +90,6 @@ export default (e) => {
         right = setInterval(() => {
           camera.position.x += Math.cos(camera.rotation.y) * speed;
           camera.position.z -= Math.sin(camera.rotation.y) * speed;
-          cssCamera.position.x += Math.cos(camera.rotation.y) * speed;
-          cssCamera.position.z -= Math.sin(camera.rotation.y) * speed;
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
@@ -218,13 +187,10 @@ export default (e) => {
     setTimeout(() => {
       if (camera.position.y >= 4) {
         camera.position.y += Math.cos(angle) * maxHeight;
-        cssCamera.position.y += Math.cos(angle) * maxHeight;
-
         angle += 0.09;
         jump();
       } else {
         camera.position.y = 4;
-        cssCamera.position.y = 4;
         angle = 0;
         isJumping = false;
       }

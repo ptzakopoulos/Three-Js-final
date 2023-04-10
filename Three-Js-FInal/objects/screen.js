@@ -1,22 +1,6 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import {
-  CSS3DRenderer,
-  CSS3DObject,
-} from "three/examples/jsm/renderers/CSS3DRenderer";
-import {
-  CSS2DRenderer,
-  CSS2DObject,
-} from "three/examples/jsm/renderers/CSS2DRenderer";
-import {
-  renderer,
-  scene,
-  camera,
-  canvas,
-  cssCamera,
-  cssRenderer,
-  cssScene,
-} from "../localModules/setup/setUp.js";
+
+import { scene } from "../localModules/setup/setUp.js";
 
 const loader = new THREE.TextureLoader();
 const screenDimensions = {

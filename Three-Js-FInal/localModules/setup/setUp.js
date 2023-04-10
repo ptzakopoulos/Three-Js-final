@@ -23,8 +23,6 @@ document.body.appendChild(renderer.domElement);
 //Scene
 const scene = new THREE.Scene();
 
-const cssScene = new THREE.Scene();
-
 //camera
 const fov = 75;
 const aspect = window.innerWidth / window.innerHeight;
@@ -35,14 +33,6 @@ const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
 camera.position.set(0, 0, 1);
 
-const fov2 = 75;
-
-//Camera 2
-const cssCamera = new THREE.PerspectiveCamera(fov2, aspect, near, 1);
-cssCamera.position.set(0, 0, 1);
-
 scene.add(camera);
-// scene.add(cssCamera);
-cssScene.add(cssCamera);
 
-export { canvas, renderer, scene, cssScene, camera, cssCamera, cssRenderer };
+export { canvas, renderer, scene, camera, cssRenderer };

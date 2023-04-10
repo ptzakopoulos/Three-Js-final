@@ -8,9 +8,7 @@ import {
   renderer,
   scene,
   camera,
-  cssCamera,
   cssRenderer,
-  cssScene,
 } from "./localModules/setup/setUp.js";
 import { Spotlight } from "./localModules/lights/lights.js";
 import Responsive from "./localModules/setup/responsive.js";
@@ -22,6 +20,12 @@ import { Frame } from "./htmlContent/htmlContent.js";
 
 //Camera Controllers
 // const orbit = new OrbitControls(camera, renderer.domElement);
+
+//Texture Loader
+const loader = new THREE.TextureLoader();
+const textures = {
+  wall: loader.load("./images/wall.jpg"),
+};
 
 //Shadows ON
 renderer.shadowMap.enabled = true;
@@ -40,85 +44,60 @@ const planeMaterial = new THREE.MeshPhongMaterial({
   side: THREE.DoubleSide,
 });
 
+//Floor
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.receiveShadow = true;
 plane.rotation.x = -Math.PI / 2;
 
 scene.add(plane);
 
+//Wall
+const wallGeometry = new THREE.BoxGeometry(10, 10, 1);
+const wallMaterial = new THREE.MeshPhongMaterial({
+  map: textures.wall,
+});
+
+const wall = new THREE.Mesh(wallGeometry, wallMaterial);
+const wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
+wall.position.set(0, 5, -2);
+wall2.position.set(10, 5, -2);
+
+scene.add(wall2);
+scene.add(wall);
+
 //Screen
 const screen = new Screen({ screenColor: 0x00ff00 }).Create();
 const content1 = new Frame({ local: "testContent" }).Create();
 screen.position.set(-15, 3, 0);
-// screen.rotation.y = 1;
 content1.forEach((e) => {
   screen.add(e);
 });
-// screen.add(content1);
 
 const screen2 = new Screen({ screenColor: 0xff0000 }).Create();
 screen2.position.set(0, 3, 0);
 const content2 = new Frame({
   online: " http://tzakopoulosp.gr/index.html",
-  // local: "testContent",
 }).Create();
 content2.forEach((e) => {
   screen2.add(e);
 });
-// screen2.add(content2);
 
 const screen3 = new Screen({ screenColor: 0x0000ff }).Create();
 screen3.position.set(15, 3, 0);
 
 //Environment Render & Update
 camera.position.set(0, 4, 36);
-cssCamera.position.set(0, 4, 36);
 
-const test = () => {
-  const iframe = document.getElementsByTagName("iframe");
-  if (iframe.length == 0) {
-    setTimeout(() => {
-      test();
-    }, 100);
-  }
-};
-test();
-
-//Raycaster test
-// const raycaster = new THREE.Raycaster();
-// const pointer = new THREE.Vector2();
-// let target;
-// window.addEventListener("click", (e) => {
-//   pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-//   pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
-//   raycaster.setFromCamera(pointer, camera);
-
-//   // calculate objects intersecting the picking ray
-//   const intersects = raycaster.intersectObjects(scene.children);
-//   target = raycaster.intersectObjects(scene.children);
-//   console.log(target);
-// });
-
+//3d Objects Interavtivity with movement
 target();
 
 // orbit.update();
 
 camera.lookAt(0, 3, 1);
-cssCamera.lookAt(0, 3, 1);
 cameraControll();
 renderer.render(scene, camera);
-cssRenderer.render(cssScene, cssCamera);
-const animatie = () => {
-  const animation = requestAnimationFrame(animatie);
-  if (camera.position.z > 20) {
-    camera.position.z -= 0.1;
-    cssCamera.position.z -= 0.1;
-  } else {
-    cancelAnimationFrame(animation);
-  }
-  cssRenderer.render(cssScene, cssCamera);
-};
-requestAnimationFrame(animatie);
+cssRenderer.render(scene, camera);
+
 Responsive();
 
 // ____________________ TESTS_________________
