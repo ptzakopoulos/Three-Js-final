@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as CANNON from "cannon-es";
 // import * as Stats from "stats";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "dat.gui";
@@ -15,17 +16,8 @@ import Responsive from "./localModules/setup/responsive.js";
 import cameraControll from "./localModules/camera/camera-controllers.js";
 import target from "./localModules/interactivity.js";
 //Local Scenarios
-import { Screen } from "./objects/screen.js";
+import { Screen, screenDimensions, bodies } from "./objects/environment.js";
 import { Frame } from "./htmlContent/htmlContent.js";
-
-//Camera Controllers
-// const orbit = new OrbitControls(camera, renderer.domElement);
-
-//Texture Loader
-const loader = new THREE.TextureLoader();
-const textures = {
-  wall: loader.load("./images/wall.jpg"),
-};
 
 //Shadows ON
 renderer.shadowMap.enabled = true;
@@ -36,34 +28,6 @@ spotLight.Create();
 spotLight.Place();
 spotLight.Handler().castShadow = true;
 spotLight.Handler().angle = 0.2;
-
-//Plane
-const planeGeometry = new THREE.PlaneGeometry(300, 300);
-const planeMaterial = new THREE.MeshPhongMaterial({
-  color: 0xf0f0f0,
-  side: THREE.DoubleSide,
-});
-
-//Floor
-const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.receiveShadow = true;
-plane.rotation.x = -Math.PI / 2;
-
-scene.add(plane);
-
-//Wall
-const wallGeometry = new THREE.BoxGeometry(10, 10, 1);
-const wallMaterial = new THREE.MeshPhongMaterial({
-  map: textures.wall,
-});
-
-const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-const wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
-wall.position.set(0, 5, -2);
-wall2.position.set(10, 5, -2);
-
-scene.add(wall2);
-scene.add(wall);
 
 //Screen
 const screen = new Screen({ screenColor: 0x00ff00 }).Create();
@@ -100,14 +64,13 @@ cssRenderer.render(scene, camera);
 
 Responsive();
 
-// ____________________ TESTS_________________
-console.log("Na deiksw me posa FPS trexei");
-
 const stats = new Stats();
 document.body.appendChild(stats.dom);
-stats.dom.style.transform = "translate(50px,50px) scale(2)";
 const fpsDisplay = () => {
+  //FPS updates
   stats.update();
   requestAnimationFrame(fpsDisplay);
 };
 requestAnimationFrame(fpsDisplay);
+
+// ____________________ TESTS_________________

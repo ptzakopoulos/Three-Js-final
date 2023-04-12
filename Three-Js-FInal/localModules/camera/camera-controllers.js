@@ -1,12 +1,12 @@
+import * as CANNON from "cannon-es";
 import { camera, scene } from "../setup/setUp.js";
+import { player, playerBody } from "../../objects/environment";
 
-export default (e) => {
-  let pointerX, pointerY;
-  let cameraRotation;
+export default () => {
   let forward, backward, left, right;
   let isJumping = false;
   let isPaused = false;
-  let isStarted;
+  let isIntersecting;
   let cameraSensitivity = 0.001;
   const arrow = document.getElementById("arrow");
   let options;
@@ -24,14 +24,14 @@ export default (e) => {
   //Camera Rotation
   window.addEventListener("mousemove", (e) => {
     isPaused == undefined
-      ? (camera.rotation.y -= e.movementX * cameraSensitivity)
+      ? (player.rotation.y -= e.movementX * cameraSensitivity)
       : NaN;
+
+    camera.rotation.y = player.rotation.y;
   });
 
   //Options events
-  //Continue
   const optionEvents = [
-    //Continue
     () => {
       const pauseMenu = document.getElementById("isPaused");
       pauseMenu.style.display = "none";
@@ -47,49 +47,51 @@ export default (e) => {
     },
     //Exit
     () => {
-      // const win = window.open("http://www.youtube.com");
-      // const win = window.document;
       const win = window.open("index.html");
       win.close();
     },
   ];
 
   //Movement + Controllers
-  const objects = [...scene.children];
-  objects.shift[0]; //Camera
-  objects.shift[0]; //Light
-  objects.shift[0]; //Floor
+  player.position.set(camera.position.x, camera.position.y, camera.position.z);
+  const playerCamera = () => {
+    camera.position.z = player.position.z;
+    camera.position.x = player.position.x;
+    camera.position.y = player.position.y;
+  };
+
   window.addEventListener("keydown", (e) => {
     const speed = 0.1;
     switch (true) {
       case e.key == "w" && !forward && !isPaused:
         forward = setInterval(() => {
-          camera.position.z -= Math.cos(camera.rotation.y) * speed;
-          camera.position.x -= Math.sin(camera.rotation.y) * speed;
+          playerBody.position.z -= Math.cos(player.rotation.y) * speed;
+          playerBody.position.x -= Math.sin(player.rotation.y) * speed;
+          playerCamera();
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
       case e.key == "s" && !backward && !isPaused:
-        // camera.position.z += 0.5;
         backward = setInterval(() => {
-          camera.position.z += Math.cos(camera.rotation.y) * speed;
-          camera.position.x += Math.sin(camera.rotation.y) * speed;
+          playerBody.position.z += Math.cos(player.rotation.y) * speed;
+          playerBody.position.x += Math.sin(player.rotation.y) * speed;
+          playerCamera();
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
       case e.key == "a" && !left && !isPaused:
-        // camera.position.x -= 0.5;
         left = setInterval(() => {
-          camera.position.x -= Math.cos(camera.rotation.y) * speed;
-          camera.position.z += Math.sin(camera.rotation.y) * speed;
+          playerBody.position.x -= Math.cos(player.rotation.y) * speed;
+          playerBody.position.z += Math.sin(player.rotation.y) * speed;
+          playerCamera();
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
       case e.key == "d" && !right && !isPaused:
-        // camera.position.x += 0.5;
         right = setInterval(() => {
-          camera.position.x += Math.cos(camera.rotation.y) * speed;
-          camera.position.z -= Math.sin(camera.rotation.y) * speed;
+          playerBody.position.x += Math.cos(player.rotation.y) * speed;
+          playerBody.position.z -= Math.sin(player.rotation.y) * speed;
+          playerCamera();
           document.getElementById(e.key).classList.add("isPressed");
         }, 10);
         break;
@@ -185,15 +187,16 @@ export default (e) => {
   const jump = () => {
     isJumping = true;
     setTimeout(() => {
-      if (camera.position.y >= 4) {
-        camera.position.y += Math.cos(angle) * maxHeight;
+      if (player.position.y >= 4) {
+        player.position.y += Math.cos(angle) * maxHeight;
         angle += 0.09;
         jump();
       } else {
-        camera.position.y = 4;
+        player.position.y = 4;
         angle = 0;
         isJumping = false;
       }
+      playerCamera();
     }, 10);
   };
 };

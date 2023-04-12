@@ -14,14 +14,6 @@ export default () => {
     target = raycaster.intersectObjects(scene.children);
   });
 
-  //   let oldPosition, newPosition;
-  //   const sceneObjects = [...scene.children];
-  //   sceneObjects.shift();
-  //   sceneObjects.shift();
-  //   console.log(camera.position.x);
-  //   console.log(camera.position.z);
-  //   console.log(sceneObjects);
-
   const objects = [...scene.children];
 
   objects.shift(); //Camera
@@ -30,6 +22,7 @@ export default () => {
 
   const objectDetect = () => {
     objects.forEach((e) => {
+      //link focus
       if (
         camera.position.x <= e.position.x + 4 &&
         camera.position.x >= e.position.x - 4 &&
