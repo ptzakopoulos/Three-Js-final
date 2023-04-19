@@ -159,3 +159,14 @@ button {
   color: black;
   cursor: pointer;
 }
+.aim {
+  width: 20px;
+  height: 20px;
+  border: 2px solid greenyellow;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: translate(-10px, -10px);
+}

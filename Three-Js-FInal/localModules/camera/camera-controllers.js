@@ -1,6 +1,6 @@
 import * as CANNON from "cannon-es";
 import { camera, scene } from "../setup/setUp.js";
-import { player, playerBody } from "../../objects/environment";
+import { player, playerBody, cameraFocus } from "../../objects/environment";
 
 export default () => {
   let forward, backward, left, right;
@@ -22,12 +22,36 @@ export default () => {
   });
 
   //Camera Rotation
+  let x = 0;
+  let y = 0;
+  let z = 0;
   window.addEventListener("mousemove", (e) => {
     isPaused == undefined
       ? (player.rotation.y -= e.movementX * cameraSensitivity)
       : NaN;
 
     camera.rotation.y = player.rotation.y;
+
+    // player.rotation.x -= e.movementY * cameraSensitivity;
+    // camera.rotation.x = player.rotation.x;
+
+    // cameraFocus.position.x -= e.movementX + 0.01;
+    // cameraFocus.position.x += Math.cos(player.rotation.y) * 0.1;
+    // cameraFocus.position.z -= Math.sin(player.rotation.y) * 0.1;
+
+    // camera.lookAt(cameraFocus);
+    // cameraFocus.position.z -= Math.sin(e.movementX);
+
+    // camera.rotation.x = Math.max(
+    //   -Math.PI / 2,
+    //   Math.min(Math.PI / 2, camera.rotation.x)
+    // );
+    // camera.rotation.z = (Math.sin(camera.rotation.x) * camera.rotation.y) / -2;
+
+    // console.log("x" + camera.rotation.x);
+    // console.log("y" + camera.rotation.y);
+    //test
+    // camera.lookAt()
   });
 
   //Options events
@@ -143,6 +167,22 @@ export default () => {
           camera.rotation.y += cameraSensitivity * 10;
         }, 10);
         break;
+      case e.key == "1":
+        //test////////////
+        camera.rotation.z += 0.5;
+        break;
+      case e.key == "2":
+        //test////////////
+        camera.rotation.z -= 0.5;
+        break;
+      case e.key == "3":
+        //test////////////
+        camera.rotation.x += 0.5;
+        break;
+      case e.key == "4":
+        //test////////////
+        camera.rotation.x -= 0.5;
+        break;
     }
   });
 
@@ -185,17 +225,11 @@ export default () => {
   let maxHeight = 0.7;
 
   const jump = () => {
-    isJumping = true;
+    isJumping = false; //*** */
     setTimeout(() => {
-      if (player.position.y >= 4) {
-        player.position.y += Math.cos(angle) * maxHeight;
-        angle += 0.09;
-        jump();
-      } else {
-        player.position.y = 4;
-        angle = 0;
-        isJumping = false;
-      }
+      const force = new CANNON.Vec3(0, 50000, 0);
+      const point = new CANNON.Vec3(1, 0, 0);
+      playerBody.applyForce(force, point);
       playerCamera();
     }, 10);
   };

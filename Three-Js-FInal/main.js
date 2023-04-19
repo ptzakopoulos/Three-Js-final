@@ -39,12 +39,12 @@ content1.forEach((e) => {
 
 const screen2 = new Screen({ screenColor: 0xff0000 }).Create();
 screen2.position.set(0, 3, 0);
-const content2 = new Frame({
-  online: " http://tzakopoulosp.gr/index.html",
-}).Create();
-content2.forEach((e) => {
-  screen2.add(e);
-});
+// const content2 = new Frame({
+//   online: " http://tzakopoulosp.gr/index.html",
+// }).Create();
+// content2.forEach((e) => {
+//   screen2.add(e);
+// });
 
 const screen3 = new Screen({ screenColor: 0x0000ff }).Create();
 screen3.position.set(15, 3, 0);
