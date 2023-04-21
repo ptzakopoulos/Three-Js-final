@@ -1,6 +1,6 @@
 import * as CANNON from "cannon-es";
-import { camera, scene } from "../setup/setUp.js";
-import { player, playerBody, cameraFocus } from "../../objects/environment";
+import { camera } from "../setup/setUp.js";
+import { player, playerBody } from "../../environment/environment";
 
 export default () => {
   let forward, backward, left, right;
@@ -13,6 +13,7 @@ export default () => {
   let counter = 0;
   const start = document.getElementById("start");
   let altCamRight, altCamLeft;
+  let spec;
 
   //Start Screen
   start.addEventListener("click", (e) => {
@@ -29,29 +30,7 @@ export default () => {
     isPaused == undefined
       ? (player.rotation.y -= e.movementX * cameraSensitivity)
       : NaN;
-
     camera.rotation.y = player.rotation.y;
-
-    // player.rotation.x -= e.movementY * cameraSensitivity;
-    // camera.rotation.x = player.rotation.x;
-
-    // cameraFocus.position.x -= e.movementX + 0.01;
-    // cameraFocus.position.x += Math.cos(player.rotation.y) * 0.1;
-    // cameraFocus.position.z -= Math.sin(player.rotation.y) * 0.1;
-
-    // camera.lookAt(cameraFocus);
-    // cameraFocus.position.z -= Math.sin(e.movementX);
-
-    // camera.rotation.x = Math.max(
-    //   -Math.PI / 2,
-    //   Math.min(Math.PI / 2, camera.rotation.x)
-    // );
-    // camera.rotation.z = (Math.sin(camera.rotation.x) * camera.rotation.y) / -2;
-
-    // console.log("x" + camera.rotation.x);
-    // console.log("y" + camera.rotation.y);
-    //test
-    // camera.lookAt()
   });
 
   //Options events
@@ -166,22 +145,6 @@ export default () => {
         altCamLeft = setInterval(() => {
           camera.rotation.y += cameraSensitivity * 10;
         }, 10);
-        break;
-      case e.key == "1":
-        //test////////////
-        camera.rotation.z += 0.5;
-        break;
-      case e.key == "2":
-        //test////////////
-        camera.rotation.z -= 0.5;
-        break;
-      case e.key == "3":
-        //test////////////
-        camera.rotation.x += 0.5;
-        break;
-      case e.key == "4":
-        //test////////////
-        camera.rotation.x -= 0.5;
         break;
     }
   });

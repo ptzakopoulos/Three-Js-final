@@ -32,10 +32,8 @@ canvas {
 iframe {
   width: 1920px;
   height: 1080px;
-  overflow: hidden;
-  animation-name: test;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
+  overflow: auto;
+  transition: all 1s linear;
 }
 
 button {
@@ -169,4 +167,24 @@ button {
   top: 50%;
   z-index: 2;
   transform: translate(-10px, -10px);
+}
+
+.time-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 800;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 20px;
+}
+.month {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
